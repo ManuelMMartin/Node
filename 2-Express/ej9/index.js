@@ -11,19 +11,14 @@ app.get('/', (req, res) => {
    res.send(almacen)
 })
 
-app.get('/ropa', (req, res) => {
+app.get('/:departamento', (req, res) => {
    let html = ""
-   almacen[0].productos.forEach((producto) => html += `<tr><td>${producto.nombre}</td><td>${producto.precio}</td><td>${producto.stock}</td></tr>`)
+   let index= almacen.findIndex(departamento => departamento.nombre===req.params.departamento)
+   almacen[index].productos.forEach((producto) => html += `<tr><td>${producto.nombre}</td><td>${producto.precio}</td><td>${producto.stock}</td></tr>`)
 
-   res.send(`<table><tr><th>Producto</th><th>Precio</th><th>Stock</th></tr>${html}</table>`)
+   res.send(index<0?"No existe el departamento"+ req.params.departamento:`<table><tr><th>Producto</th><th>Precio</th><th>Stock</th></tr>${html}</table>`)
 })
-app.get('/tecnologia', (req, res) => {
-   let html = ""
-   almacen[1].productos.forEach((producto) => html += `<tr><td>${producto.nombre}</td><td>${producto.precio}</td><td>${producto.stock}</td></tr>`)
-
-   res.send(`<table><tr><th>Producto</th><th>Precio</th><th>Stock</th></tr>${html}</table>`)
-})
-
+ 
 app.get('/:departamento/:nombre/:cantidad', (req, res) => {
    let departamento = almacen.find(departamento => departamento.nombre === req.params.departamento)
    let departamentoIndex = almacen.findIndex(departamento => departamento.nombre === req.params.departamento)
@@ -54,7 +49,7 @@ app.get('/cesta', (req, res) => {
    cesta.forEach((producto) => total += producto.cantidad * producto.precio)
    cesta.forEach((producto) => html += `<tr><td>${producto.nombre}</td><td>${producto.cantidad}</td><td>${producto.cantidad * producto.precio}</td></tr>`)
 
-   res.send(`<table><tr><th>Producto</th><th>Cantidad</th><th>Total</th></tr>${html}<td></td><td>TOTAL</td><td>${total}</td></table><a href="http://localhost:3000/comprar"><button>Comprar</button></a>`)
+   res.send(cesta.length > 0 ?`<table><tr><th>Producto</th><th>Cantidad</th><th>Total</th></tr>${html}<td></td><td>TOTAL</td><td>${total}</td></table><a href="http://localhost:3000/comprar"><button>Comprar</button></a>`:"No hay nada aun en la cesta")
 })
 
 app.get('/comprar', (req, res) => {
