@@ -20,7 +20,7 @@ app.get('/sumar-animal', (req, res) => {
    if (req.query.nombre === "" || req.query.edad === "" || req.query.tipo === "") {
       res.send('No has introducido todos los datos, <a href="./agregar.html">Volver</a>')
    } else {
-      animales.push({ nombre: req.query.nombre, edad: req.query.edad, tipo: req.query.tipo })
+      animales.push({ nombre: req.query.nombre, edad: parseInt(req.query.edad), tipo: req.query.tipo })
       res.redirect('/')
    }
 
