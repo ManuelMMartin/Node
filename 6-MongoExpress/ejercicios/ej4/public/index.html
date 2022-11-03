@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+   <meta charset="UTF-8">
+   <meta http-equiv="X-UA-Compatible" content="IE=edge">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <title>Menus</title>
+</head>
+
+<body>
+   <div id="menus"></div>
+   <form>
+      <h2>Nuevo Menu:</h2>
+      <label for="numero">Numero:</label><br>
+      <input type="text" name="numero" id="numero" required /><br>
+      <label for="primero">Primero: </label><br>
+      <input type="text" name="primero" id="primero" required /><br>
+      <label for="segundo">Segundo: </label><br>
+      <input type="text" name="segundo" id="segundo" required /><br>
+      <label for="postre">Postre: </label><br>
+      <input type="text" name="postre" id="postre" required /><br>
+      <label for="precio">Precio: </label><br>
+      <input type="text" name="precio" id="precio" required /><br>
+      <button type="button" onclick="agregar()">Agregar Menu</button>
+   </form>
+
+   <script>
+      mostrar()
+      function mostrar() {
+         fetch('/api/menus')
+            .then(res => res.json())
+            .then(res => {
+               let html = ""
+               res.results.forEach(menu => {
+                  html += `
+                  <li>Menu ${menu.numero}: de primero ${menu.primero} acompañado de ${menu.segundo} y de postre ${menu.postre}.........${menu.precio} € <button onclick="borrar('${menu.numero}')">Borrar</button></li>`
+               });
+               document.getElementById('menus').innerHTML = `<ul>${html}</ul>`
+            })
+      }
+
+      function agregar() {
+         let numero = document.getElementById("numero").value
+         let primero = document.getElementById("primero").value
+         let segundo = document.getElementById("segundo").value
+         let postre = document.getElementById("postre").value
+         let precio = document.getElementById("precio").value
+
+         fetch('/api/nuevoMenu', {
+            method: "POST",
+            headers: {
+               "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ numero, primero, segundo, postre, precio })
+         })
+         mostrar()
+      }
+
+      function borrar(numero) {
+         console.log(numero)
+         fetch('/api/borrarMenu', {
+            method: "DELETE",
+            headers: {
+               "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ numero })
+         })
+         mostrar()
+      }
+
+   </script>
+</body>
+
+</html>

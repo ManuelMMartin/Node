@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+   <meta charset="UTF-8">
+   <meta http-equiv="X-UA-Compatible" content="IE=edge">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <title>Libros</title>
+</head>
+
+<body>
+   <div id="containerGet"></div>
+
+   <script>
+      function mostrar() {
+         fetch("/api/libros")
+            .then(res => res.json())
+            .then(res => {
+               let html = ""
+               res.results.forEach(libro => {
+                  html += `<tr><td>${libro.titulo}</td><td> ${libro.estado}</td><td><button onclick="leer('${libro.titulo}')">Leer</button></td><td><button onclick="borrar('${libro.titulo}')">Eliminar</button></td></tr>`
+               });
+               document.getElementById("containerGet").innerHTML = `<table><tr><th>Titulo</th><th>Estado</th><th>Leerlo</th><th>Borrarlo</th></tr><tr>${html}</tr></table>`
+            })
+      }
+      mostrar()
+      function leer(params) {
+         fetch(`/api/editarLibro/${params}`, {
+            method: "PUT",
+            headers: {
+               "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ titulo: params })
+         })
+         mostrar()
+      }
+
+      function borrar(params) {
+         fetch(`/api/borrarLibro/${params}`, {
+            method: "DELETE",
+            headers: {
+               "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ titulo: params })
+         })
+         mostrar()
+      }
+
+
+
+
+
+   </script>
+
+</body>
+
+
+
+</html>
