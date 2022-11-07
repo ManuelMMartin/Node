@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+   <meta charset="UTF-8">
+   <meta http-equiv="X-UA-Compatible" content="IE=edge">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <script type="text/javascript" src="./index.js"></script>
+   <title>HOTEL</title>
+</head>
+
+<body>
+   <h1>HOTEL🐉</h1>
+   <h2>Registro de nuevos clientes</h2>
+   <form>
+      <input type="text" id="nombre" placeholder="Nombre" required>
+      <input type="text" id="apellido" placeholder="Apellido" required>
+      <input type="text" id="dni" placeholder="DNI" maxlength="9" minlength="9" required>
+      <button type="button" onclick="agregar()">Añadir</button>
+   </form>
+   <div>
+      <h3>Clientes<button type="button" onclick="mostrar('inputOculto')">Editar</button></h3>
+      <div id="inputOculto" style="display:none ;">
+         <form>
+            <input type="text" id="dni1" placeholder="DNI" maxlength="9" minlength="9" required>
+            <input type="text" id="nombre1" placeholder="Nombre" required>
+            <input type="text" id="apellido1" placeholder="Apellido" required>
+            <button type="button" onclick="editarCliente()">Modificar</button>
+            <button type="button" onclick="cancelar('inputOculto')">Cancelar</button>
+         </form>
+      </div>
+      <div id="clientes"></div>
+      <h3>Reservas</h3>
+      <form>
+         <input type="text" id="dniReserva" placeholder="DNI" maxlength="9" minlength="9" required>
+         <input type="number" max="8" min="1" id="habitacionReserva" placeholder="Nº" required>
+         <button type="button" onclick="reservar()">Añadir</button>
+      </form>
+      <div id="reservas"></div>
+      <h3>Habitaciones</h3>
+      <div id="habitaciones"></div>
+   </div>
+   <div id="feedback"></div>
+
+</body>
+
+</html>

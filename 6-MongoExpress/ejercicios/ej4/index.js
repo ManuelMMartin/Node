@@ -59,15 +59,17 @@ app.post('/api/nuevoMenu', (req, res) => {
       res.send(console.log("Debes rellenar todos los campos"))
    } else {
       app.locals.db.collection("restaurante").find({ numero: parseInt(req.body.numero) }).toArray((err, data) => {
-         data.length > 0
-            ? res.send({ mensaje: "Ya existe un menu con el numero: " + req.body.numero, results: data })
-            : (app.locals.db.collection("restaurante").insertOne(
-               { numero: parseInt(req.body.numero), primero: req.body.primero, segundo: req.body.segundo, postre: req.body.postre, precio: parseInt(req.body.precio) },
-               (err, data) => {
-                  err
-                     ? res.send({ mensaje: "No se ha podido agregar el menu", results: err })
-                     : res.send({ mensaje: "Agregado el menu numero: " + req.body.numero, results: data })
-               }))
+         err
+            ? res.send({ mensaje: "No se ha podido agregar el menu", results: err })
+            : data.length > 0
+               ? res.send({ mensaje: "Ya existe un menu con el numero: " + req.body.numero, results: data })
+               : (app.locals.db.collection("restaurante").insertOne(
+                  { numero: parseInt(req.body.numero), primero: req.body.primero, segundo: req.body.segundo, postre: req.body.postre, precio: parseInt(req.body.precio) },
+                  (err, data) => {
+                     err
+                        ? res.send({ mensaje: "No se ha podido agregar el menu", results: err })
+                        : res.send({ mensaje: "Agregado el menu numero: " + req.body.numero, results: data })
+                  }))
       })
    }
 })
