@@ -20,12 +20,12 @@ clientes.post('/nuevoCliente', (req, res) => {
                nombre: req.body.nombre,
                apellido: req.body.apellido,
                dni: req.body.dni
-            }, (err, data) => {
-               err
-                  ? res.send({ error: true, mensaje: "No se ha podido acceder a la BBDD", data: err })
-                  : (data.length < 1
-                     ? res.send({ error: true, mensaje: 'No se ha podido agregar a la BBDD', data: data })
-                     : res.send({ error: false, mensaje: `Agregado ${req.body.nombre} ${req.body.apellido} a la BBDD`, data: data }))
+            }, (err1, data1) => {
+               err1
+                  ? res.send({ error: true, mensaje: "No se ha podido acceder a la BBDD", data: err1 })
+                  : (data1.insertedId === null
+                     ? res.send({ error: true, mensaje: 'No se ha podido agregar a la BBDD', data: data1 })
+                     : res.send({ error: false, mensaje: `Agregado ${req.body.nombre} ${req.body.apellido} a la BBDD`, data: data1 }))
             })
    })
 })

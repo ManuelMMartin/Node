@@ -15,8 +15,6 @@ app.use('/agregar', agregar)
 app.use('/hamburguesas', hamburguesas)
 app.use('/bebidas', bebidas)
 app.use('/pedidos', pedidos)
-
-
 app.use(express.static('public'))
 //Configuración mongodb 
 const MongoClient = require('mongodb').MongoClient
@@ -29,23 +27,6 @@ MongoClient.connect('mongodb://127.0.0.1:27017', {
    app.locals.db = client.db("mongonald")
 }).catch(err => console.error('🔴MongoDB no conectado. Error: ' + err))
 //Configuración mongodb
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 app.listen(port, err => {
    err

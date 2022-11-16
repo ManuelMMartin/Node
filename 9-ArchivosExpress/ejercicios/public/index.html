@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+   <meta charset="UTF-8">
+   <meta http-equiv="X-UA-Compatible" content="IE=edge">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <link rel="stylesheet" href="./style.css">
+   <title>Document</title>
+</head>
+
+<body>
+   <h1>👀Fotos👀</h1>
+   <button type="button" onclick="mostrarRegistro()">Registrarme</button>
+   <button type="button" onclick="mostrarLogin()">Ya estoy registrado</button>
+   <hr>
+   <div id="registro" style="display:none">
+      <h2>Registrate</h2>
+      <form>
+         <input type="text" id="usuario" placeholder="Usuario">
+         <input type="text" id="email" placeholder="Email">
+         <input type="password" id="pass" placeholder="Contraseña">
+         <button type="button" onclick="registro()">Registrate</button>
+      </form>
+   </div>
+   <hr>
+   <div id="login" style="display:none">
+      <h2>Autentificate</h2>
+      <form>
+         <input type="text" id="emailLog" placeholder="Email">
+         <input type="password" id="passLog" placeholder="Contraseña">
+         <button type="button" onclick="login()">Login</button>
+      </form>
+   </div>
+
+   <div id="subir" style="display:none">
+      <form action="/subir-archivo" enctype="multipart/form-data" method="post">
+         <input type="text" name="email" id="emailSubir" placeholder="Email" style="display:none">
+         <input type="password" name="pass" id="passSubir" placeholder="Contraseña" style="display:none">
+         <input type="file" name="imagen">
+         <button type="submit">subir</button>
+      </form>
+   </div>
+   <div id="imagenes"></div>
+
+   <div id="feedback"></div>
+
+   <script src="./index.js"></script>
+</body>
+
+</html>

@@ -36,11 +36,15 @@ reservas.post('/checkin', (req, res) => {
                         : (req.app.locals.db.collection('reservas').insertOne({ cliente: req.body.dni, habitacion: req.body.numero, checkIn: fecha(), checkOut: "" }, (err2, reserva) => {
                            err2
                               ? res.send({ error: true, mensaje: "No se ha podido acceder a la BBDD de reservas", data: err2 })
-                              : req.app.locals.db.collection('habitaciones').updateOne({ numero: parseInt(req.body.numero) }, { $set: { ocupada: true } }, (err3, data) => {
-                                 err3
-                                    ? res.send({ error: true, mensaje: "No se ha podido acceder a la BBDD de habitaciones", data: err3 })
-                                    : res.send({ error: false, mensaje: `Habitacion ${habitacion[0].numero} reservada a nombre de ${cliente[0].nombre} ${cliente[0].apellido}`, data: reserva })
-                              })
+                              : reserva.insertedId === null
+                                 ? res.send({ error: true, mensaje: "No se ha podido registrar en la BBDD de reservas", data: reserva })
+                                 : req.app.locals.db.collection('habitaciones').updateOne({ numero: parseInt(req.body.numero) }, { $set: { ocupada: true } }, (err3, data) => {
+                                    err3
+                                       ? res.send({ error: true, mensaje: "No se ha podido acceder a la BBDD de habitaciones", data: err3 })
+                                       : data.modifiedCount < 1
+                                          ? res.send({ error: true, mensaje: "No se ha podido reservar la habitacion", data: data })
+                                          : res.send({ error: false, mensaje: `Habitacion ${habitacion[0].numero} reservada a nombre de ${cliente[0].nombre} ${cliente[0].apellido}`, data: reserva })
+                                 })
                         }))
             })
    })
